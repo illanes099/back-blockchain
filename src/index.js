@@ -39,7 +39,7 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 // Configuración limpia y unificada de CORS (Permite peticiones concurrentes rápidas desde Vite)
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://boletines-daza.pages.dev",
     credentials: true,
   })
 );
