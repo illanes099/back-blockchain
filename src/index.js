@@ -36,7 +36,7 @@ app.use(morgan("dev"));
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
-// Configuración limpia y unificada de CORS (Permite peticiones concurrentes rápidas desde Vite)
+// Configuración limpia y unificada de CORS (Permite peticiones concurrentes rápidas desde Vite)1
 app.use(
   cors({
     origin: true,
