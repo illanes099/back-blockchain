@@ -33,17 +33,20 @@ export const certificarBoletin = async (req, res) => {
       }
     }
 
+    const fechaBolivia = new Date().toLocaleString("en-US", { timeZone: "America/La_Paz" });
+    const fechaLocal = new Date(fechaBolivia);
+
     // 4. Registrar la nueva certificación en PostgreSQL asociada al estudiante
     const queryInsert = `
-      INSERT INTO certificaciones_blockchain (estudiante_id, hash_boletin, tx_hash)
-      VALUES ($1, $2, $3)
+      INSERT INTO certificaciones_blockchain (estudiante_id, hash_boletin, tx_hash ,fecha_registro)
+      VALUES ($1, $2, $3, $4)
       ON CONFLICT (hash_boletin) DO UPDATE 
       SET tx_hash = COALESCE(EXCLUDED.tx_hash, certificaciones_blockchain.tx_hash),
-          fecha_registro = CURRENT_TIMESTAMP
+          fecha_registro = EXCLUDED.fecha_registro
       RETURNING *;
     `;
     
-    const dbResult = await pool.query(queryInsert, [estudianteId, hash, txHashSeguro]);
+    const dbResult = await pool.query(queryInsert, [estudianteId, hash, txHashSeguro, fechaLocal]);
 
     // 5. Responder exitosamente al cliente (HTTP 200)
     return res.status(200).json({
